@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form>
+      <label for="clientName">Client Name:</label>
+      <input type="text" id="clientName" name="clientName" required />
+
+      <label for="mortgageAmount">Mortgage Amount:</label>
+      <input type="number" id="mortgageAmount" name="mortgageAmount" required />
+
+      <label for="downPayment">Down Payment:</label>
+      <input type="number" id="downPayment" name="downPayment" required />
+
+      <label for="interestRate">Interest Rate:</label>
+      <input
+        type="number"
+        id="interestRate"
+        name="interestRate"
+        min="0"
+        step="0.01"
+        required
+      />
+
+      <label for="loanDuration">Loan Duration (in years):</label>
+      <select id="loanDuration" name="loanDuration">
+        <option value="10">10 years</option>
+        <option value="15">15 years</option>
+        <option value="20">20 years</option>
+        <option value="30">30 years</option>
+      </select>
+
+      <input type="submit" value="Calculate" />
+    </form>
+    <div id="results">
+      <!-- Results will be displayed here -->
+    </div>
+
+    <h3>Second Scenario</h3>
+    <form id="second-form">
+      <label for="second-amount">Mortgage Amount:</label>
+      <input type="number" id="second-amount" name="second-amount" />
+
+      <label for="second-down-payment">Down Payment:</label>
+      <input
+        type="number"
+        id="second-down-payment"
+        name="second-down-payment"
+      />
+
+      <label for="second-interest-rate">Yearly Interest Rate:</label>
+      <input
+        type="number"
+        id="second-interest-rate"
+        name="second-interest-rate"
+      />
+
+      <label for="second-loan-duration">Loan Duration (in years):</label>
+      <input
+        type="number"
+        id="second-loan-duration"
+        name="second-loan-duration"
+      />
+    </form>
+
+    <button id="compare-button">Compare</button>
+
+    <div id="second-results"></div>
+  </body>
+  <script src="./script.js"></script>
+</html>
