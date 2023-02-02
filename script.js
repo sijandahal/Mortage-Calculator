@@ -11,10 +11,10 @@ const loanDuration = document.querySelector("#loanDuration");
 function calculation() {
   // Get the user input
   const name = clientName.value;
-  const amount = mortgageAmount.value;
-  const downPay = downPayment.value;
-  const rate = interestRate.value;
-  const duration = loanDuration.value;
+  const amount = parseFloat(mortgageAmount.value).toFixed(2);
+  const downPay = parseFloat(downPayment.value).toFixed(2);
+  const rate = parseFloat(interestRate.value).toFixed(2);
+  const duration = parseFloat(loanDuration.value).toFixed(2);
 
   // Perform the mortgage calculations
   // Amortization formula and calculation code goes here
@@ -22,38 +22,38 @@ function calculation() {
   // Display the results to the user
   // You can use innerHTML or create an element to append the result
 
-  const interest = rate / 12 / 100;
+  const interest = (rate / 12 / 100).toFixed(4);
   const payments = duration * 12;
-  const principal = amount - downPay;
-  const x = Math.pow(1 + interest, payments);
-  const monthly = (principal * x * interest) / (x - 1);
+  const principal = (amount - downPay).toFixed(2);
 
-  //Calculate the amortization schedule
+  const x = Math.pow(1 + parseFloat(interest), payments);
+  const monthly = ((principal * x * parseFloat(interest)) / (x - 1)).toFixed(2);
+
   const amortization = [];
   let balance = principal;
   for (let i = 0; i < payments; i++) {
-    const interestPaid = balance * interest;
-    const principalPaid = monthly - interestPaid;
-    balance -= principalPaid;
+    const interestPaid = (balance * interest).toFixed(2);
+    const principalPaid = parseFloat(monthly - interestPaid).toFixed(2);
+    balance -= parseFloat(principalPaid);
     amortization.push({
-      interestPaid,
-      principalPaid,
-      balance,
+      interestPaid: parseFloat(interestPaid),
+      principalPaid: parseFloat(principalPaid),
+      balance: parseFloat(balance).toFixed(2),
     });
   }
 
   const resultsDiv = document.querySelector("#results");
   resultsDiv.innerHTML = `
-                    <div class = "resultsdiv">
-                    <div class = "container">
-                    <p>Client Name: ${name}</p>
-                    <p>Mortgage Amount: ${amount}</p>
-                    <p>Down Payment: ${downPay}</p>
-                    <p>Interest Rate: ${rate}</p>
-                    <p>Loan Duration: ${duration} years</p>
-                    </div>
-                    </div>
-                           `;
+                  <div class = "resultsdiv">
+                  <div class = "container">
+                  <p>Client Name: ${name}</p>
+                  <p>Mortgage Amount: ${parseFloat(amount).toFixed(2)}</p>
+                  <p>Down Payment: ${parseFloat(downPay).toFixed(2)}</p>
+                  <p>Interest Rate: ${parseFloat(rate).toFixed(2)}</p>
+                  <p>Loan Duration: ${parseFloat(duration)} years</p>
+                  </div>
+                  </div>
+                         `;
 
   //loop for displaying amortization schedule
 
@@ -152,12 +152,14 @@ function calculation2() {
   const resultsDiv2 = document.querySelector("#second-results");
   resultsDiv2.innerHTML = `
                     <div class = "resultsdiv2">
-  <p>Client Name: ${name2}</p>
-                           <p>Mortgage Amount: ${amount2}</p>
-                           <p>Down Payment: ${downPay2}</p>
-                           <p>Interest Rate: ${rate2}</p>
-                           <p>Loan Duration: ${duration2} years</p>
-                           </div>
+                    <div class = "container">
+                    <p>Client Name: ${name2}</p>
+                    <p>Mortgage Amount: ${amount2}</p>
+                    <p>Down Payment: ${downPay2}</p>
+                    <p>Interest Rate: ${rate2}</p>
+                    <p>Loan Duration: ${duration2} years</p>
+                    </div>
+                    </div>
                            `;
 
   //loop for displaying amortization schedule
@@ -165,6 +167,7 @@ function calculation2() {
   // create table element
   let table2 = document.createElement("table");
   table2.id = "amortization-table";
+  table2.classList = "container";
 
   // create table header
   let headerRow2 = document.createElement("tr");
