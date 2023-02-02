@@ -1,5 +1,5 @@
 // Get the form elements
-const form = document.querySelector("form");
+const form1 = document.querySelector(".first__form");
 const clientName = document.querySelector("#clientName");
 const mortgageAmount = document.querySelector("#mortgageAmount");
 const downPayment = document.querySelector("#downPayment");
@@ -7,9 +7,8 @@ const interestRate = document.querySelector("#interestRate");
 const loanDuration = document.querySelector("#loanDuration");
 
 // Add a submit event listener to the form
-form.addEventListener("submit", (e) => {
-  e.preventDefault(); // prevent the form from submitting
 
+function calculation() {
   // Get the user input
   const name = clientName.value;
   const amount = mortgageAmount.value;
@@ -43,18 +42,17 @@ form.addEventListener("submit", (e) => {
     });
   }
 
-  console.log("ran");
-
-  console.log(document.querySelector("#results"));
   const resultsDiv = document.querySelector("#results");
   resultsDiv.innerHTML = `
                     <div class = "resultsdiv">
-  <p>Client Name: ${name}</p>
-                           <p>Mortgage Amount: ${amount}</p>
-                           <p>Down Payment: ${downPay}</p>
-                           <p>Interest Rate: ${rate}</p>
-                           <p>Loan Duration: ${duration} years</p>
-                           </div>
+                    <div class = "container">
+                    <p>Client Name: ${name}</p>
+                    <p>Mortgage Amount: ${amount}</p>
+                    <p>Down Payment: ${downPay}</p>
+                    <p>Interest Rate: ${rate}</p>
+                    <p>Loan Duration: ${duration} years</p>
+                    </div>
+                    </div>
                            `;
 
   //loop for displaying amortization schedule
@@ -62,6 +60,7 @@ form.addEventListener("submit", (e) => {
   // create table element
   let table = document.createElement("table");
   table.id = "amortization-table";
+  table.classList = "container";
 
   // create table header
   let headerRow = document.createElement("tr");
@@ -84,36 +83,128 @@ form.addEventListener("submit", (e) => {
       <td>${balance}</td>
     `;
     table.appendChild(row);
-  }
 
+    resultsDiv.appendChild(table);
+  }
+}
+
+form1.addEventListener("submit", (e) => {
+  e.preventDefault(); // prevent the form from submitting
   // add table to the results div
-  resultsDiv.appendChild(table);
+  calculation();
 });
 
-//Amortization formula
+//secondform
+const form2 = document.querySelector(".secondform");
+const clientName_secondform = document.querySelector("#clientName_secondform");
+const mortgageAmount_secondform = document.querySelector(
+  "#mortgageAmount_secondform"
+);
+const downPayment_secondform = document.querySelector(
+  "#downPayment_secondform"
+);
+const interestRate_secondform = document.querySelector(
+  "#interestRate_secondform"
+);
+const loanDuration_secondform = document.querySelector(
+  "#loanDuration_secondform"
+);
 
-const compareButton = document.getElementById("compare-button");
-compareButton.addEventListener("click", function () {
-  // Get input values for second scenario
-  const secondAmount = document.getElementById("second-amount").value;
-  const secondDownPayment = document.getElementById(
-    "second-down-payment"
-  ).value;
-  const secondInterestRate = document.getElementById(
-    "second-interest-rate"
-  ).value;
-  const secondLoanDuration = document.getElementById(
-    "second-loan-duration"
-  ).value;
+// Add a submit event listener to the form
 
-  // Calculate amortization and savings for second scenario
-  const secondResults = calculateAmortizationAndSavings(
-    secondAmount,
-    secondDownPayment,
-    secondInterestRate,
-    secondLoanDuration
-  );
+function calculation2() {
+  // Get the user input
+  const name2 = clientName_secondform.value;
+  const amount2 = mortgageAmount_secondform.value;
+  const downPay2 = downPayment_secondform.value;
+  const rate2 = interestRate_secondform.value;
+  const duration2 = loanDuration_secondform.value;
 
-  // Display results for second scenario in a table format
-  displayResults(secondResults, "second-results");
+  // Perform the mortgage calculations
+  // Amortization formula and calculation code goes here
+
+  // Display the results to the user
+  // You can use innerHTML or create an element to append the result
+
+  const interest2 = rate2 / 12 / 100;
+  const payments2 = duration2 * 12;
+  const principal2 = amount2 - downPay2;
+  const x2 = Math.pow(1 + interest2, payments2);
+  const monthly2 = (principal2 * x2 * interest2) / (x2 - 1);
+
+  //Calculate the amortization schedule
+  const amortization2 = [];
+  let balance2 = principal2;
+  for (let j = 0; j < payments2; j++) {
+    const interestPaid2 = balance2 * interest2;
+    const principalPaid2 = monthly2 - interestPaid2;
+    balance2 -= principalPaid2;
+    amortization2.push({
+      interestPaid2,
+      principalPaid2,
+      balance2,
+    });
+  }
+
+  console.log("ran");
+
+  console.log(document.querySelector("#second-results"));
+  const resultsDiv2 = document.querySelector("#second-results");
+  resultsDiv2.innerHTML = `
+                    <div class = "resultsdiv2">
+  <p>Client Name: ${name2}</p>
+                           <p>Mortgage Amount: ${amount2}</p>
+                           <p>Down Payment: ${downPay2}</p>
+                           <p>Interest Rate: ${rate2}</p>
+                           <p>Loan Duration: ${duration2} years</p>
+                           </div>
+                           `;
+
+  //loop for displaying amortization schedule
+
+  // create table element
+  let table2 = document.createElement("table");
+  table2.id = "amortization-table";
+
+  // create table header
+  let headerRow2 = document.createElement("tr");
+  headerRow2.innerHTML = `
+  <th>Payment #</th>
+  <th>Interest Paid</th>
+  <th>Principal Paid</th>
+  <th>Balance</th>
+`;
+  table2.appendChild(headerRow2);
+
+  // loop through amortization array to add rows to the table
+  for (let j = 0; j < payments2; j++) {
+    let { interestPaid2, principalPaid2, balance2 } = amortization2[j];
+    let row2 = document.createElement("tr");
+    row2.innerHTML = `
+      <td>${j + 1}</td>
+      <td>${interestPaid2}</td>
+      <td>${principalPaid2}</td>
+      <td>${balance2}</td>
+    `;
+    table2.appendChild(row2);
+
+    resultsDiv2.appendChild(table2);
+  }
+}
+
+document
+  .querySelector(".compare__button")
+  .addEventListener("click", function () {
+    document.querySelector(".secondform").style.display = "block";
+  });
+
+document.querySelector(".secondform").addEventListener("submit", function (e) {
+  e.preventDefault();
+  document.querySelector(".secondform").style.display = "none";
+});
+form2.addEventListener("submit", (e) => {
+  e.preventDefault(); // prevent the form from submitting
+  // add table to the results div
+  calculation();
+  calculation2();
 });
