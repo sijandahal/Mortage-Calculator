@@ -11,10 +11,10 @@ const loanDuration = document.querySelector("#loanDuration");
 function calculation() {
   // Get the user input
   const name = clientName.value;
-  const amount = parseFloat(mortgageAmount.value).toFixed(2);
-  const downPay = parseFloat(downPayment.value).toFixed(2);
-  const rate = parseFloat(interestRate.value).toFixed(2);
-  const duration = parseFloat(loanDuration.value).toFixed(2);
+  const amount = mortgageAmount.value;
+  const downPay = downPayment.value;
+  const rate = interestRate.value;
+  const duration = loanDuration.value;
 
   // Perform the mortgage calculations
   // Amortization formula and calculation code goes here
@@ -22,23 +22,23 @@ function calculation() {
   // Display the results to the user
   // You can use innerHTML or create an element to append the result
 
-  const interest = (rate / 12 / 100).toFixed(4);
+  const interest = rate / 12 / 100;
   const payments = duration * 12;
-  const principal = (amount - downPay).toFixed(2);
+  const principal = amount - downPay;
 
-  const x = Math.pow(1 + parseFloat(interest), payments);
-  const monthly = ((principal * x * parseFloat(interest)) / (x - 1)).toFixed(2);
+  const x = Math.pow(1 + interest, payments);
+  const monthly = (principal * x * interest) / (x - 1);
 
   const amortization = [];
   let balance = principal;
   for (let i = 0; i < payments; i++) {
-    const interestPaid = (balance * interest).toFixed(2);
-    const principalPaid = parseFloat(monthly - interestPaid).toFixed(2);
-    balance -= parseFloat(principalPaid);
+    const interestPaid = balance * interest;
+    const principalPaid = monthly - interestPaid;
+    balance -= principalPaid;
     amortization.push({
-      interestPaid: parseFloat(interestPaid),
-      principalPaid: parseFloat(principalPaid),
-      balance: parseFloat(balance).toFixed(2),
+      interestPaid: interestPaid,
+      principalPaid: principalPaid,
+      balance: balance,
     });
   }
 
@@ -65,7 +65,7 @@ function calculation() {
   // create table header
   let headerRow = document.createElement("tr");
   headerRow.innerHTML = `
-  <th>Payment #</th>
+  <th>Payment </th>
   <th>Interest Paid</th>
   <th>Principal Paid</th>
   <th>Balance</th>
@@ -78,9 +78,9 @@ function calculation() {
     let row = document.createElement("tr");
     row.innerHTML = `
       <td>${i + 1}</td>
-      <td>${interestPaid}</td>
-      <td>${principalPaid}</td>
-      <td>${balance}</td>
+      <td>${parseFloat(interestPaid).toFixed(3)}</td>
+      <td>${parseFloat(principalPaid).toFixed(3)}</td>
+      <td>${parseFloat(balance).toFixed(3)}</td>
     `;
     table.appendChild(row);
 
@@ -154,10 +154,10 @@ function calculation2() {
                     <div class = "resultsdiv2">
                     <div class = "container">
                     <p>Client Name: ${name2}</p>
-                    <p>Mortgage Amount: ${amount2}</p>
-                    <p>Down Payment: ${downPay2}</p>
-                    <p>Interest Rate: ${rate2}</p>
-                    <p>Loan Duration: ${duration2} years</p>
+                    <p>Mortgage Amount: ${parseFloat(amount2).toFixed(2)}</p>
+                  <p>Down Payment: ${parseFloat(downPay2).toFixed(2)}</p>
+                  <p>Interest Rate: ${parseFloat(rate2).toFixed(2)}</p>
+                  <p>Loan Duration: ${duration2} years</p>
                     </div>
                     </div>
                            `;
@@ -185,9 +185,9 @@ function calculation2() {
     let row2 = document.createElement("tr");
     row2.innerHTML = `
       <td>${j + 1}</td>
-      <td>${interestPaid2}</td>
-      <td>${principalPaid2}</td>
-      <td>${balance2}</td>
+      <td>${parseFloat(interestPaid2).toFixed(3)}</td>
+      <td>${parseFloat(principalPaid2).toFixed(3)}</td>
+      <td>${parseFloat(balance2).toFixed(3)}</td>
     `;
     table2.appendChild(row2);
 
@@ -198,16 +198,15 @@ function calculation2() {
 document
   .querySelector(".compare__button")
   .addEventListener("click", function () {
-    document.querySelector(".secondform").style.display = "block";
+    if (document.querySelector(".secondform").classList.contains("none")) {
+      document.querySelector(".first__form").style.display = "block";
+      document.querySelector("#second-results").style.display = "none";
+    }
+    document.querySelector(".secondform").classList.toggle("none");
   });
 
 document.querySelector(".secondform").addEventListener("submit", function (e) {
   e.preventDefault();
   document.querySelector(".secondform").style.display = "none";
-});
-form2.addEventListener("submit", (e) => {
-  e.preventDefault(); // prevent the form from submitting
-  // add table to the results div
-  calculation();
-  calculation2();
+  document.querySelector(".first__form").style.display = "none";
 });
