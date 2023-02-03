@@ -154,10 +154,12 @@ function calculation2() {
                     <div class = "resultsdiv2">
                     <div class = "container">
                     <p>Client Name: ${name2}</p>
-                    <p>Mortgage Amount: ${amount2}</p>
-                    <p>Down Payment: ${downPay2}</p>
-                    <p>Interest Rate: ${rate2}</p>
-                    <p>Loan Duration: ${duration2} years</p>
+                    <p>Mortgage Amount: ${parseFloat(amount2).toFixed(2)}</p>
+                    <p>Down Payment: ${parseFloat(downPay2).toFixed(2)}</p>
+                    <p>Interest Rate: ${parseFloat(rate2).toFixed(2)}</p>
+                    <p>Loan Duration: ${parseFloat(duration2).toFixed(
+                      2
+                    )} years</p>
                     </div>
                     </div>
                            `;
@@ -185,9 +187,9 @@ function calculation2() {
     let row2 = document.createElement("tr");
     row2.innerHTML = `
       <td>${j + 1}</td>
-      <td>${interestPaid2}</td>
-      <td>${principalPaid2}</td>
-      <td>${balance2}</td>
+      <td>${parseFloat(interestPaid2).toFixed(2)}</td>
+      <td>${parseFloat(principalPaid2).toFixed(2)}</td>
+      <td>${parseFloat(balance2).toFixed(2)}</td>
       
     `;
     table2.appendChild(row2);
@@ -204,6 +206,7 @@ document
 
 document.querySelector(".secondform").addEventListener("submit", function (e) {
   e.preventDefault();
+  document.querySelector(".first__form").style.display = "none";
   document.querySelector(".secondform").style.display = "none";
 });
 form2.addEventListener("submit", (e) => {
