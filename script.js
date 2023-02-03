@@ -34,10 +34,12 @@ function calculation() {
   for (let i = 0; i < payments; i++) {
     const interestPaid = (balance * interest).toFixed(2);
     const principalPaid = parseFloat(monthly - interestPaid).toFixed(2);
+    // const monthlyPay = interestPaid + principalPaid;
     balance -= parseFloat(principalPaid);
     amortization.push({
       interestPaid: parseFloat(interestPaid),
       principalPaid: parseFloat(principalPaid),
+      // monthlyPay: parseFloat(monthlyPay).toFixed(2),
       balance: parseFloat(balance).toFixed(2),
     });
   }
@@ -51,6 +53,7 @@ function calculation() {
                   <p>Down Payment: ${parseFloat(downPay).toFixed(2)}</p>
                   <p>Interest Rate: ${parseFloat(rate).toFixed(2)}</p>
                   <p>Loan Duration: ${parseFloat(duration)} years</p>
+                  <p>Monthly Payments : ${parseFloat(monthly).toFixed(2)}</p>
                   </div>
                   </div>
                          `;
@@ -68,20 +71,18 @@ function calculation() {
   <th>Payment #</th>
   <th>Interest Paid</th>
   <th>Principal Paid</th>
-  <th>Balance</th>
-`;
+  <th>Balance</th>`;
   table.appendChild(headerRow);
 
   // loop through amortization array to add rows to the table
   for (let i = 0; i < payments; i++) {
-    let { interestPaid, principalPaid, balance } = amortization[i];
+    let { interestPaid, principalPaid, balance, monthlyPay } = amortization[i];
     let row = document.createElement("tr");
     row.innerHTML = `
       <td>${i + 1}</td>
       <td>${interestPaid}</td>
       <td>${principalPaid}</td>
-      <td>${balance}</td>
-    `;
+      <td>${balance}</td>    `;
     table.appendChild(row);
 
     resultsDiv.appendChild(table);
@@ -160,6 +161,10 @@ function calculation2() {
                     <p>Loan Duration: ${parseFloat(duration2).toFixed(
                       2
                     )} years</p>
+                                      <p>Monthly Payments2 : ${parseFloat(
+                                        monthly2
+                                      ).toFixed(2)}</p>
+
                     </div>
                     </div>
                            `;
@@ -190,10 +195,8 @@ function calculation2() {
       <td>${parseFloat(interestPaid2).toFixed(2)}</td>
       <td>${parseFloat(principalPaid2).toFixed(2)}</td>
       <td>${parseFloat(balance2).toFixed(2)}</td>
-      
     `;
     table2.appendChild(row2);
-
     resultsDiv2.appendChild(table2);
   }
 }
